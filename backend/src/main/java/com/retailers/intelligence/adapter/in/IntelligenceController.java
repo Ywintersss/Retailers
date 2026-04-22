@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/ai")
-public class RestEndpoints {
+public class IntelligenceController {
 
     @PostMapping("/sentiment/analyze/{storeId}")
     public ResponseEntity<SentimentResponse> analyzeSentiment(@PathVariable String storeId) {

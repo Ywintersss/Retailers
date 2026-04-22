@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/v1/ai")
-public class RestEndpoints {
+public class PricingControllers {
 
     // AI-Powered Decision Node
     @PostMapping("/pricing/optimize/{storeId}")

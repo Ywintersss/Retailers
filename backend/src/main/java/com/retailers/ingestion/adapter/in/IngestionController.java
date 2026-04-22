@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/v1/events")
-public class RestEndpoints {
+public class IngestionController {
 
     @PostMapping("/pos/ingest")
     public ResponseEntity<Void> ingestPosData(@RequestBody PosIngestRequest posData) {

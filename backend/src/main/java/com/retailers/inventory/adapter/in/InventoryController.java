@@ -10,9 +10,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
-public class RestEndpoints {
+public class InventoryController {
 
-    @GetMapping("/stores/{storeId}/sales")
+    @GetMapping("/inventory/{storeId}/sales")
     public ResponseEntity<List<Object>> getSalesTimeline(
             @PathVariable String storeId,
             @RequestParam(defaultValue = "14d") String range) {

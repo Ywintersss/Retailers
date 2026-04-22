@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
-public class RestEndpoints {
+public class DashboardController {
 
     @GetMapping("/stores/{storeId}")
     public ResponseEntity<Store> getStoreDetails(@PathVariable String storeId) {
