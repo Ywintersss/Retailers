@@ -1,0 +1,36 @@
+name: Manage EC2 Environment
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: Choose to start or stop the environment
+        required: true
+        default: start
+        type: choice
+        options:
+          - start
+          - stop
+
+jobs:
+  toggle_instance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Execute AWS EC2 Command
+        run: |
+          ACTION=${{ github.event.inputs.action }}
+          INSTANCE_ID=${{ secrets.EC2_INSTANCE_ID }}
+          
+          aws ec2 $ACTION-instances --instance-ids $INSTANCE_ID
+          
+          if [ "$ACTION" = "start" ]; then
+            aws ec2 wait instance-running --instance-ids $INSTANCE_ID
+          else
+            aws ec2 wait instance-stopped --instance-ids $INSTANCE_ID
+          fi
