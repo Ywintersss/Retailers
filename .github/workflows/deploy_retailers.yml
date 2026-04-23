@@ -54,19 +54,20 @@ jobs:
           source: "docker-compose.yml"
           target: "/home/${{ secrets.EC2_USERNAME }}/app"
 
-      - name: Deploy on EC2
+      - name: Generate .env and Deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          # Pass the job env variables into the SSH session
+          envs: ILMU_AI_API_KEY
           script: |
             cd /home/${{ secrets.EC2_USERNAME }}/app
             
-            # Export variables so Docker Compose can use them
-            export FRONTEND_IMAGE="${{ env.FRONTEND_IMAGE }}"
-            export BACKEND_IMAGE="${{ env.BACKEND_IMAGE }}"
+            # Create a fresh .env file
+            echo "ILMU_AI_API_KEY=${{ secrets.ILMU_AI_API_KEY }}" > .env
             
-            # Pull the latest images and recreate the containers quietly
+            # Pull new images and restart services
             docker compose pull
             docker compose up -d
