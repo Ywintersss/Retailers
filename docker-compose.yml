@@ -68,7 +68,7 @@ services:
     restart: always
     ports:
       # Mapping to port 80 for production web access
-      - "80:5173"
+      - "5173:5173"
     depends_on:
       - backend
 
