@@ -61,12 +61,14 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           # Pass the job env variables into the SSH session
-          envs: ILMU_AI_API_KEY
+          envs: ILMU_AI_API_KEY, FRONTEND_IMAGE, BACKEND_IMAGE
           script: |
             cd /home/${{ secrets.EC2_USERNAME }}/app
             
             # Create a fresh .env file
             echo "ILMU_AI_API_KEY=${{ secrets.ILMU_AI_API_KEY }}" > .env
+            echo "FRONTEND_IMAGE=${{ env.FRONTEND_IMAGE }}" >> .env
+            echo "BACKEND_IMAGE=${{ env.BACKEND_IMAGE }}" >> .env
             
             # Pull new images and restart services
             docker compose pull
