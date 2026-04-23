@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -55,18 +55,20 @@ services:
       SPRING_DATASOURCE_USERNAME: franchise_user
       SPRING_DATASOURCE_PASSWORD: franchise_pass
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      ILMU_AI_API_KEY: ${ILMU_AI_API_KEY}
 
   frontend:
-      build:
-        context: ./retailer-dashboard
-        dockerfile: Dockerfile
-      ports:
-        # Map back to Vite's native port
-        - "5173:5173"
-      volumes:
-        # Mount your local source code into the container so edits trigger HMR
-        - ./retailer-dashboard:/app
-        # Prevent your local node_modules from overwriting the container's node_modules
-        - /app/node_modules
-      depends_on:
+    build:
+      context: ./retailer-dashboard
+      dockerfile: Dockerfile
+    ports:
+      # Map back to Vite's native port
+      - "5173:5173"
+    volumes:
+      # Mount your local source code into the container so edits trigger HMR
+      - ./retailer-dashboard:/app
+      # Prevent your local node_modules from overwriting the container's node_modules
+      - /app/node_modules
+    depends_on:
       - backend
+
