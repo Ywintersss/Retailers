@@ -41,7 +41,13 @@ Refactored the existing `DashboardController` (`com.retailers.dashboard.adapter.
     *   `GET /api/v1/dashboard/kpis`
     *   `GET /api/v1/events/stream/latest`
 
+## 5. Kafka Event Ingestion
+Implemented a Kafka Consumer (`PosTransactionConsumer`) to ingest real-time events from the POS systems directly into the database.
+*   **Consumer Setup**: Uses `@KafkaListener` configured to listen to the `pos.transactions` topic.
+*   **Event Handling**: Deserializes incoming `PosTransactionEvent` payloads.
+*   **Database Persistence**: Automatically maps the event data into the `EventStream` entity and persists it into the `event_stream` table via the `EventStreamRepository` for the frontend to query.
+
 ---
 
 > [!NOTE]
-> The Kafka Consumer integration and AI Decision Nodes refactoring were intentionally omitted for now. The current implementation provides a fully functioning standard CRUD pipeline backed by PostgreSQL.
+> The AI Decision Nodes refactoring was intentionally omitted for now. The current implementation provides a fully functioning standard CRUD and Kafka ingestion pipeline backed by PostgreSQL.
