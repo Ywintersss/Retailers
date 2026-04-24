@@ -12,6 +12,7 @@ public interface PricingOptimizationAgent {
             1. Call the provided tools to get product prices and sales data.
             2. Analyze price elasticity and peak/off-peak trends.
             3. Return a valid JSON response matching the PricingOptimizationResponse structure.
+            IMPORTANT: Return ONLY raw, valid JSON. Do not wrap it in markdown blocks (```json ... ```). Do not include any explanations outside the JSON.
             """)
     PricingOptimizationResponse optimizePricing(@UserMessage String userPrompt);
 }
