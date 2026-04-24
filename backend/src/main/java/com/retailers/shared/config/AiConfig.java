@@ -23,7 +23,7 @@ public class AiConfig {
         return OpenAiChatModel.builder()
                 .apiKey(apiKey)
                 .baseUrl("https://api.ilmu.ai/v1")
-                .modelName("ilmu-nemo-nano")
+                .modelName("ilmu-glm-5.1")
                 .timeout(Duration.ofSeconds(60))
                 .logRequests(true)
                 .logResponses(true)

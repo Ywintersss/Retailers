@@ -12,4 +12,8 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 
+    @org.springframework.context.annotation.Bean
+    public com.fasterxml.jackson.databind.ObjectMapper objectMapper() {
+        return new com.fasterxml.jackson.databind.ObjectMapper();
+    }
 }
