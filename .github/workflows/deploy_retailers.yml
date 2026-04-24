@@ -67,11 +67,10 @@ jobs:
           script: |
             cd /home/${{ secrets.EC2_USERNAME }}/app
             
-            # Create a fresh .env file
             echo "ILMU_AI_API_KEY=${{ secrets.ILMU_AI_API_KEY }}" > .env
             echo "FRONTEND_IMAGE=${{ env.FRONTEND_IMAGE }}" >> .env
             echo "BACKEND_IMAGE=${{ env.BACKEND_IMAGE }}" >> .env
             
-            # Pull new images and restart services
             docker compose pull
-            docker compose up -d
+            # Add these flags to ensure a clean slate
+            docker compose up -d --force-recreate --remove-orphans
