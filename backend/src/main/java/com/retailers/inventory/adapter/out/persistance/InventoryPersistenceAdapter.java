@@ -20,7 +20,7 @@ public class InventoryPersistenceAdapter implements InventoryRepository {
 
     @Override
     public List<StockLevel> getCurrentStockByStore(String storeId) {
-        String sql = "SELECT product_id, quantity, unit FROM stock WHERE store_id = ?";
+        String sql = "SELECT sku_id, quantity, unit FROM stock WHERE store_id = ?";
         return jdbc.query(sql, (rs, row) -> new StockLevel(
                 rs.getString("product_id"),
                 rs.getDouble("quantity"),

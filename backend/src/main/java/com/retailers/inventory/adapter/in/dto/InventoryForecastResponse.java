@@ -5,8 +5,13 @@ import com.retailers.inventory.domain.model.ForecastResult;
 import java.util.List;
 
 public record InventoryForecastResponse(
-        AiBaseResponse base, // Metadata & Reasoning
-        List<ForecastResult> predictions, // The actual numbers
-        String inventoryHealthStatus // e.g., "STABLE", "RISK_OF_OUTAGE"
-) {
+        String storeId,
+        String forecastHorizon,
+        AiBaseResponse base,
+        List<ForecastResult> predictions,
+        String inventoryHealthStatus) {
+
+    public InventoryForecastResponse withMetadata(String storeId, String horizon) {
+        return new InventoryForecastResponse(storeId, horizon, this.base, this.predictions, this.inventoryHealthStatus);
+    }
 }

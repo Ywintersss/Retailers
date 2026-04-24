@@ -3,7 +3,7 @@ package com.retailers.inventory.domain.model;
 import com.retailers.shared.RiskLevel;
 
 public record ForecastResult(
-        String productId,
+        String skuId,
         Integer predictedDemand,
         Double confidenceScore,
         RiskLevel riskLevel,

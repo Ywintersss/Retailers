@@ -1,7 +1,7 @@
 package com.retailers.pricing.adapter.in.dto;
 
 public record PriceRecommendationDTO(
-        String productId,
+        String skuId,
         Double oldPrice,
         Double recommendedPrice,
         Double marginImpact,

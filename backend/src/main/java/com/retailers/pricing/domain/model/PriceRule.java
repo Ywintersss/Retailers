@@ -1,7 +1,7 @@
 package com.retailers.pricing.domain.model;
 
 public record PriceRule(
-        String productId,
+        String skuId,
         Double basePrice,
         Double currentPrice,
         Double competitorPrice, // Added for AI comparison
