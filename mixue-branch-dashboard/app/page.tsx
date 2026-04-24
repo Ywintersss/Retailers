@@ -5,6 +5,8 @@ import { SalesTable } from './components/salestable'
 export default async function Dashboard() {
   const sales = await getSalesData()
 
+// TODO: Add error handling and loading states for better UX
+
   return (
     <main className="min-h-screen p-8 bg-gray-50">
       <div className="max-w-5xl mx-auto space-y-6">
