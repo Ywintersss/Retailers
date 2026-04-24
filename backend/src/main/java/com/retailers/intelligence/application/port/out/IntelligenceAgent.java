@@ -12,6 +12,7 @@ public interface IntelligenceAgent {
             1. Call tools to get recent POS events, sensor data, and KPIs for the store.
             2. Analyze reviews and alerts for sentiment patterns and topics.
             3. Return a valid JSON response matching the SentimentResponse structure.
+            IMPORTANT: Return ONLY raw, valid JSON. Do not wrap it in markdown blocks (```json ... ```). Do not include any explanations outside the JSON.
             """)
     SentimentResponse analyzeSentiment(@UserMessage String userPrompt);
 
@@ -20,6 +21,7 @@ public interface IntelligenceAgent {
             1. Call tools to get recent events, alerts, and store KPIs.
             2. Identify critical issues requiring management action (e.g., equipment failures, high waste).
             3. Return a valid JSON response matching the ActionableInsightResponse structure.
+            IMPORTANT: Return ONLY raw, valid JSON. Do not wrap it in markdown blocks (```json ... ```). Do not include any explanations outside the JSON.
             """)
     ActionableInsightResponse generateInsights(@UserMessage String userPrompt);
 }

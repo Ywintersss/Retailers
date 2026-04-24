@@ -24,7 +24,7 @@ public class AiConfig {
                 .apiKey(apiKey)
                 .baseUrl("https://api.ilmu.ai/v1")
                 .modelName("ilmu-glm-5.1")
-                .timeout(Duration.ofSeconds(60))
+                .timeout(Duration.ofSeconds(120))
                 .logRequests(true)
                 .logResponses(true)
                 .build();

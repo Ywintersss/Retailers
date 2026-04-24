@@ -12,6 +12,7 @@ public interface InventoryForecasterAgent {
             1. Call the provided tools to get stock and sales data.
             2. Analyze risks (High Heat = High Ice Cream demand).
             3. Return a valid JSON response matching the InventoryForecastResponse structure.
+            IMPORTANT: Return ONLY raw, valid JSON. Do not wrap it in markdown blocks (```json ... ```). Do not include any explanations outside the JSON.
             """)
     InventoryForecastResponse analyze(@UserMessage String userPrompt);
 }
