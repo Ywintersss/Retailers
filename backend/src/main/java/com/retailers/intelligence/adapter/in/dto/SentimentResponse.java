@@ -1,12 +1,17 @@
 package com.retailers.intelligence.adapter.in.dto;
 
-import com.retailers.shared.dto.AiBaseResponse;
-import com.retailers.intelligence.domain.model.Sentiment;
+import com.retailers.shared.dto.AiExplanationResponse;
 import java.util.List;
+import java.time.OffsetDateTime;
 
 public record SentimentResponse(
-        AiBaseResponse base,
-        Sentiment sentiment,
+        String decisionId,
+        String glmModel,
+        Double overallScore,
+        Integer totalReviews,
+        String period,
+        SentimentBreakdown breakdown,
         List<SentimentTopicDTO> topics,
-        List<TopicAlert> alerts) {
+        List<TopicAlert> alerts,
+        AiExplanationResponse explanation) {
 }

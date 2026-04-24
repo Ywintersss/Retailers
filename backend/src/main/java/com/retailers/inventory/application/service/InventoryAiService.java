@@ -30,11 +30,6 @@ public class InventoryAiService implements InventoryForecastUseCase {
 
     private InventoryForecastResponse enrichResponse(InventoryForecastResponse response, String storeId,
             String horizon) {
-        return new InventoryForecastResponse(
-                storeId,
-                horizon,
-                response.base(), // Keeping the AI's reasoning
-                response.predictions(),
-                response.inventoryHealthStatus());
+        return response.withMetadata(storeId, horizon);
     }
 }

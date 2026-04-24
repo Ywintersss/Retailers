@@ -3,11 +3,14 @@ package com.retailers.inventory.domain.model;
 import com.retailers.shared.RiskLevel;
 
 public record ForecastResult(
-        String skuId,
+        String sku,
+        String name,
+        Integer currentStock,
         Integer predictedDemand,
-        Double confidenceScore,
-        RiskLevel riskLevel,
-        Integer suggestedRestockAmount, // Added: The "Actionable" part
-        String restockJustification // Added: e.g., "High demand expected due to public holiday"
+        Integer restockRecommendation,
+        Double confidence,
+        String stockoutRisk,
+        Integer daysUntilStockout,
+        String restockJustification
 ) {
 }

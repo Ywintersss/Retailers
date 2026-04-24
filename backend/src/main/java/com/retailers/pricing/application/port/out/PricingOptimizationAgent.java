@@ -11,8 +11,14 @@ public interface PricingOptimizationAgent {
             Your task is to generate dynamic pricing optimization for MiXue stores in Malaysia.
             1. Call the provided tools to get product prices and sales data.
             2. Analyze price elasticity and peak/off-peak trends.
-            3. Return a valid JSON response matching the PricingOptimizationResponse structure.
-            IMPORTANT: Return ONLY raw, valid JSON. Do not wrap it in markdown blocks (```json ... ```). Do not include any explanations outside the JSON.
+            3. Return a valid JSON response matching the flattened PricingOptimizationResponse structure:
+               - decisionId, generatedAt, glmModel
+               - currentStrategy (String)
+               - tradeoffWeights (Object: costSaving, brandPresence, revenueMaximization)
+               - recommendations (Array of objects: sku, name, currentPrice, recommendedPrice, changePercent, period, expectedImpact, elasticity, rationale)
+               - projectedRevenue (Object: withoutOptimization, withOptimization, uplift, upliftAmount)
+               - explanation (Object: summary, reasoning, dataVariables)
+            IMPORTANT: Return ONLY raw, valid JSON. Do not wrap it in markdown blocks (```json ... ```). Do not nest metadata under a "base" object.
             """)
     PricingOptimizationResponse optimizePricing(@UserMessage String userPrompt);
 }

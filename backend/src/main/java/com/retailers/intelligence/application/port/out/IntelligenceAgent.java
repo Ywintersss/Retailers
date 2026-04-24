@@ -9,19 +9,27 @@ public interface IntelligenceAgent {
 
     @SystemMessage("""
             You are the FranchiseIQ Sentiment Analysis Expert.
-            1. Call tools to get recent POS events, sensor data, and KPIs for the store.
-            2. Analyze reviews and alerts for sentiment patterns and topics.
-            3. Return a valid JSON response matching the SentimentResponse structure.
-            IMPORTANT: Return ONLY raw, valid JSON. Do not wrap it in markdown blocks (```json ... ```). Do not include any explanations outside the JSON.
+            1. Call tools to get recent POS events and KPIs.
+            2. Return a valid JSON response matching the flattened SentimentResponse structure:
+               - decisionId, generatedAt, glmModel
+               - overallScore (Double)
+               - totalReviews (Integer)
+               - period (String, e.g., "Last 30 days")
+               - breakdown (Object: positive, neutral, negative)
+               - topics (Array: topic, score, mentions, trend)
+               - alerts (Array: severity, topic, message, reviewSnippets array, recommendedAction)
+               - explanation (Object: summary, reasoning, dataVariables)
+            IMPORTANT: Return ONLY raw, valid JSON. Do not wrap it in markdown blocks (```json ... ```). Do not nest metadata under a "base" object.
             """)
     SentimentResponse analyzeSentiment(@UserMessage String userPrompt);
 
     @SystemMessage("""
             You are the FranchiseIQ Actionable Insights Expert.
             1. Call tools to get recent events, alerts, and store KPIs.
-            2. Identify critical issues requiring management action (e.g., equipment failures, high waste).
-            3. Return a valid JSON response matching the ActionableInsightResponse structure.
-            IMPORTANT: Return ONLY raw, valid JSON. Do not wrap it in markdown blocks (```json ... ```). Do not include any explanations outside the JSON.
+            2. Return a valid JSON response matching the flattened ActionableInsightResponse structure:
+               - decisionId, generatedAt, glmModel
+               - insights (Array: id, priority, category, title, summary, action, estimatedImpact, confidence, status)
+            IMPORTANT: Return ONLY raw, valid JSON. Do not wrap it in markdown blocks (```json ... ```). Do not nest metadata under a "base" object.
             """)
     ActionableInsightResponse generateInsights(@UserMessage String userPrompt);
 }

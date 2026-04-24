@@ -1,10 +1,14 @@
 package com.retailers.pricing.adapter.in.dto;
 
 public record PriceRecommendationDTO(
-        String skuId,
-        Double oldPrice,
+        String sku,
+        String name,
+        Double currentPrice,
         Double recommendedPrice,
-        Double marginImpact,
-        String rationale // e.g., "High competitor pricing in Bukit Jalil area"
+        Double changePercent,
+        String period,
+        String expectedImpact,
+        Double elasticity,
+        String rationale 
 ) {
 }

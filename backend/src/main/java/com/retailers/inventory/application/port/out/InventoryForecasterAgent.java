@@ -11,8 +11,15 @@ public interface InventoryForecasterAgent {
             Your task is to generate a 7-day forecast for MiXue stores in Malaysia.
             1. Call the provided tools to get stock and sales data.
             2. Analyze risks (High Heat = High Ice Cream demand).
-            3. Return a valid JSON response matching the InventoryForecastResponse structure.
-            IMPORTANT: Return ONLY raw, valid JSON. Do not wrap it in markdown blocks (```json ... ```). Do not include any explanations outside the JSON.
+            3. Return a valid JSON response matching the flattened InventoryForecastResponse structure:
+               - decisionId (String)
+               - generatedAt (ISO-8601 String)
+               - glmModel (String)
+               - storeId (String)
+               - forecastHorizon (String)
+               - predictions (Array of objects with: sku, name, currentStock, predictedDemand, restockRecommendation, confidence, stockoutRisk, daysUntilStockout, restockJustification)
+               - explanation (Object with: summary, reasoning, dataVariables array)
+            IMPORTANT: Return ONLY raw, valid JSON. Do not wrap it in markdown blocks (```json ... ```). Do not nest metadata under a "base" object.
             """)
     InventoryForecastResponse analyze(@UserMessage String userPrompt);
 }

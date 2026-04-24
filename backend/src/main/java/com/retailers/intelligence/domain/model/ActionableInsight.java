@@ -6,7 +6,7 @@ public record ActionableInsight(
         String category, // "Inventory", "Equipment", "Staffing"
         String title,
         String summary,
-        String recommendedAction,
+        String action,
         String estimatedImpact, // Added: e.g., "RM 2,400 saved"
         Double confidence, // Added: 0.0 - 1.0
         String status // "pending", "in-progress", "resolved"

@@ -1,11 +1,17 @@
 package com.retailers.pricing.adapter.in.dto;
 
-import com.retailers.shared.dto.AiBaseResponse;
+import com.retailers.shared.dto.AiExplanationResponse;
 import java.util.List;
+import java.time.OffsetDateTime;
 
 public record PricingOptimizationResponse(
-        AiBaseResponse base, // The AI reasoning block
+        String decisionId,
+        OffsetDateTime generatedAt,
+        String glmModel,
+        String currentStrategy,
+        TradeoffWeightsDTO tradeoffWeights,
         List<PriceRecommendationDTO> recommendations,
-        Double projectedRevenueLift // e.g., 0.12 for 12% increase
+        ProjectedRevenueDTO projectedRevenue,
+        AiExplanationResponse explanation
 ) {
 }
