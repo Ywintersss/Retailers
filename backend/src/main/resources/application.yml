@@ -17,8 +17,3 @@ spring:
       properties:
         spring.json.trusted.packages: "com.retailers.*"
         spring.json.value.default.type: "com.retailers.shared.event.PosTransactionEvent"
-
-logging:
-  level:
-    org.springframework.kafka: DEBUG
-    org.apache.kafka: DEBUG
