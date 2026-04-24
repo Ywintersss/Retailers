@@ -47,14 +47,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Copy docker-compose to EC2
+      - name: Copy files to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "docker-compose.yml"
+          # Add your SQL file path here, separated by a comma
+          source: "docker-compose.yml,backend\\src\\main\\resources\\data.sql" 
           target: "/home/${{ secrets.EC2_USERNAME }}/app"
+          # Optional: Use strip_components to flatten the directory structure 
+          # on the EC2 instance if data.sql is deep inside your repo folder
 
       - name: Generate .env and Deploy
         uses: appleboy/ssh-action@v1.0.3
