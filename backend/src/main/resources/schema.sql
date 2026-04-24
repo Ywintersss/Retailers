@@ -1,4 +1,4 @@
-CREATE TABLE store (
+CREATE TABLE IF NOT EXISTS store (
     id VARCHAR(50) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     region VARCHAR(100),
@@ -11,7 +11,7 @@ CREATE TABLE store (
     longitude DECIMAL(10, 6)
 );
 
-CREATE TABLE dashboard_kpi (
+CREATE TABLE IF NOT EXISTS dashboard_kpi (
     id SERIAL PRIMARY KEY,
     store_id VARCHAR(50) REFERENCES store(id),
     daily_revenue DECIMAL(12, 2),
@@ -27,7 +27,7 @@ CREATE TABLE dashboard_kpi (
     recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE store_sale (
+CREATE TABLE IF NOT EXISTS store_sale (
     id SERIAL PRIMARY KEY,
     store_id VARCHAR(50) REFERENCES store(id),
     sale_date DATE NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE store_sale (
     UNIQUE(store_id, sale_date)
 );
 
-CREATE TABLE event_stream (
+CREATE TABLE IF NOT EXISTS event_stream (
     id VARCHAR(50) PRIMARY KEY,
     topic VARCHAR(100) NOT NULL,
     event_timestamp TIMESTAMP NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE event_stream (
     status VARCHAR(50)
 );
 
-CREATE TABLE product (
+CREATE TABLE IF NOT EXISTS product (
     sku VARCHAR(50) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     current_stock INTEGER,
