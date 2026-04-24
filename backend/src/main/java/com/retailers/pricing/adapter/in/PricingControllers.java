@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import com.retailers.pricing.adapter.in.dto.PricingOptimizationRequest;
 import com.retailers.pricing.adapter.in.dto.PricingOptimizationResponse;
 import com.retailers.pricing.adapter.in.dto.TradeoffWeightRequest;
+import com.retailers.pricing.application.port.out.PricingOptimizationAgent;
 
 import org.springframework.http.ResponseEntity;
 
@@ -12,13 +13,19 @@ import org.springframework.http.ResponseEntity;
 @RequestMapping("/api/v1/ai")
 public class PricingControllers {
 
+    private final PricingOptimizationAgent pricingAgent;
+
+    public PricingControllers(PricingOptimizationAgent pricingAgent) {
+        this.pricingAgent = pricingAgent;
+    }
+
     // AI-Powered Decision Node
     @PostMapping("/pricing/optimize/{storeId}")
     public ResponseEntity<PricingOptimizationResponse> getOptimizedPricing(
             @PathVariable String storeId,
             @RequestBody PricingOptimizationRequest pricingStrategy) {
-        // return pricingAiUseCase.optimize(storeId, pricingStrategy);
-        return ResponseEntity.ok().build();
+        String prompt = String.format("Store: %s. Strategy: %s. Generate price optimizations.", storeId, pricingStrategy.strategy());
+        return ResponseEntity.ok(pricingAgent.optimizePricing(prompt));
     }
 
     // Human-in-the-Loop: Updating AI Weights
@@ -26,7 +33,7 @@ public class PricingControllers {
     public ResponseEntity<Void> updateAiWeights(
             @PathVariable String storeId,
             @RequestBody TradeoffWeightRequest weights) {
-        // pricingAiUseCase.updateWeights(storeId, weights);
+        // Just acknowledging the weights for now
         return ResponseEntity.noContent().build();
     }
 }

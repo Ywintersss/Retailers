@@ -47,7 +47,11 @@ Implemented a Kafka Consumer (`PosTransactionConsumer`) to ingest real-time even
 *   **Event Handling**: Deserializes incoming `PosTransactionEvent` payloads.
 *   **Database Persistence**: Automatically maps the event data into the `EventStream` entity and persists it into the `event_stream` table via the `EventStreamRepository` for the frontend to query.
 
----
+## 6. AI Decision Nodes Integration (Z.AI GLM)
+Successfully wired the LangChain4j Agents to pull real historical data from our new PostgreSQL JPA Repositories instead of using mock or broken data pipelines.
 
-> [!NOTE]
-> The AI Decision Nodes refactoring was intentionally omitted for now. The current implementation provides a fully functioning standard CRUD and Kafka ingestion pipeline backed by PostgreSQL.
+*   **Inventory Forecast (`InventoryAiTools`)**: Injects `ProductRepository` and `StoreSaleRepository` to provide the AI with real-time global stock and 30-day sales history.
+*   **Pricing Optimization (`PricingAiTools`)**: Injects `ProductRepository` and `StoreSaleRepository` to provide the AI with product pricing and historical revenue data for peak/off-peak elasticity analysis.
+*   **Actionable Insights & Sentiment (`IntelligenceAiTools`)**: Injects `EventStreamRepository` and `DashboardKpiRepository` to feed recent POS/sensor events and store KPI data into the AI context for sentiment pattern detection and critical issue flagging.
+
+All AI Agents are configured and registered as Spring Beans in `AiConfig` and actively used by their respective REST Controllers (`InventoryController`, `PricingControllers`, `IntelligenceController`).
