@@ -37,7 +37,6 @@ public class PosTransactionConsumer {
         eventStream.setSource(event.storeId());
         
         try {
-            // Alternatively, a readable string could be used here depending on requirement
             String payloadJson = objectMapper.writeValueAsString(event);
             eventStream.setPayload(payloadJson);
         } catch (JsonProcessingException e) {
