@@ -66,11 +66,12 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           # Pass the job env variables into the SSH session
-          envs: ILMU_AI_API_KEY, FRONTEND_IMAGE, BACKEND_IMAGE
+          envs: ILMU_AI_API_KEY, OPEN_WEATHER_API_KEY, FRONTEND_IMAGE, BACKEND_IMAGE
           script: |
             cd /home/${{ secrets.EC2_USERNAME }}/app
 
             echo "ILMU_AI_API_KEY=${{ secrets.ILMU_AI_API_KEY }}" > .env
+            echo "OPEN_WEATHER_API_KEY=${{ secrets.OPEN_WEATHER_API_KEY }}" >> .env
             echo "FRONTEND_IMAGE=${{ env.FRONTEND_IMAGE }}" >> .env
             echo "BACKEND_IMAGE=${{ env.BACKEND_IMAGE }}" >> .env
             echo "VITE_API_BASE_URL=http://localhost:8080/api/v1" >> .env

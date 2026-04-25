@@ -1,9 +1,11 @@
 package com.retailers.healthcheck;
 
 import com.retailers.inventory.adapter.out.PosEventProducer;
+import com.retailers.shared.adapter.out.WeatherAiTools;
 import com.retailers.shared.event.PosTransactionEvent;
 
 import java.sql.Connection;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -19,10 +21,10 @@ public class HealthCheck {
     private final PosEventProducer producer;
     private final JdbcTemplate jdbcTemplate;
     private final DataSource dataSource;
-    private final com.retailers.shared.adapter.out.WeatherAiTools weatherTools;
+    private final WeatherAiTools weatherTools;
 
-    public HealthCheck(PosEventProducer producer, JdbcTemplate jdbcTemplate, DataSource dataSource, 
-                       com.retailers.shared.adapter.out.WeatherAiTools weatherTools) {
+    public HealthCheck(PosEventProducer producer, JdbcTemplate jdbcTemplate, DataSource dataSource,
+            WeatherAiTools weatherTools) {
         this.producer = producer;
         this.jdbcTemplate = jdbcTemplate;
         this.dataSource = dataSource;
@@ -56,6 +58,15 @@ public class HealthCheck {
     @GetMapping("/test-weather")
     public String testWeather() {
         return weatherTools.getWeather("Kuala Lumpur");
+    }
+
+    @GetMapping("/verify-env")
+    public Map<String, String> verifyEnv() {
+        String key = weatherTools.getResolvedApiKey();
+        return Map.of(
+                "property_source", "OPEN_WEATHER_API_KEY",
+                "resolved_value", key != null && key.length() > 5 ? key.substring(0, 5) + "..." : "MISSING/EMPTY",
+                "working_directory", System.getProperty("user.dir"));
     }
 
     // This maps to http://localhost:8080/test-kafka
