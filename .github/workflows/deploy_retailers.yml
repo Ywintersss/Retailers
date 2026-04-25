@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths-ignore:
-      - "mixue-branch-dashboard/**"
+      - 'mixue-branch-dashboard/**'
   workflow_dispatch:
 
 env:
@@ -65,15 +65,29 @@ jobs:
           envs: ILMU_AI_API_KEY, FRONTEND_IMAGE, BACKEND_IMAGE
           script: |
             cd /home/${{ secrets.EC2_USERNAME }}/app
-
+            
             echo "ILMU_AI_API_KEY=${{ secrets.ILMU_AI_API_KEY }}" > .env
             echo "FRONTEND_IMAGE=${{ env.FRONTEND_IMAGE }}" >> .env
             echo "BACKEND_IMAGE=${{ env.BACKEND_IMAGE }}" >> .env
             echo "VITE_API_BASE_URL=http://localhost:8080" >> .env
             echo "VITE_API_BASE_URL_PROD=https://retailers.webhop.me" >> .env
             echo "VITE_IS_PROD=true" >> .env
-
+                        
             docker compose pull
-            # Add these flags to ensure a clean slate
-            docker compose up -d --force-recreate --remove-orphans
-
+            
+            echo "Starting infrastructure containers..."
+            docker compose up -d --force-recreate --remove-orphans postgres kafka
+            
+            echo "Waiting for PostgreSQL to accept connections..."
+            until docker exec $(docker compose ps -q postgres) pg_isready -U franchise_user -d franchiseiq; do
+              sleep 2
+            done
+            
+            echo "Executing schema migration..."
+            docker exec $(docker compose ps -q postgres) psql -v ON_ERROR_STOP=1 -U franchise_user -d franchiseiq -f /scripts/schema.sql
+            
+            echo "Executing data seed..."
+            docker exec $(docker compose ps -q postgres) psql -v ON_ERROR_STOP=1 -U franchise_user -d franchiseiq -f /scripts/data.sql
+            
+            echo "Starting application containers..."
+            docker compose up -d
