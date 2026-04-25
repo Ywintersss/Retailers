@@ -73,6 +73,8 @@ jobs:
             echo "ILMU_AI_API_KEY=${{ secrets.ILMU_AI_API_KEY }}" > .env
             echo "FRONTEND_IMAGE=${{ env.FRONTEND_IMAGE }}" >> .env
             echo "BACKEND_IMAGE=${{ env.BACKEND_IMAGE }}" >> .env
+            echo "VITE_API_BASE_URL=http://localhost:8080" >> .env
+            echo "VITE_API_BASE_URL_PROD=https://retailers.webhop.me" >> .env
             
             docker compose pull
             # Add these flags to ensure a clean slate

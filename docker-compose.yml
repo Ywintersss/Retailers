@@ -70,6 +70,9 @@ services:
     ports:
       # Mapping to port 80 for production web access
       - "5173:5173"
+    environment:
+      - VITE_API_BASE_URL=${VITE_API_BASE_URL}
+      - VITE_API_BASE_URL_PROD=${VITE_API_BASE_URL_PROD}
     depends_on:
       - backend
 
