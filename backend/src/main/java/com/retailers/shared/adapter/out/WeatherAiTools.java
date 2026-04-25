@@ -11,7 +11,7 @@ import java.util.Map;
 @Component
 public class WeatherAiTools {
 
-    @Value("${app.weather.api-key:}")
+    @Value("${OPEN_WEATHER_API_KEY:}")
     private String apiKey;
 
     private final RestTemplate restTemplate = new RestTemplate();
@@ -26,10 +26,14 @@ public class WeatherAiTools {
             String url = String.format("https://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s&units=metric",
                     city, apiKey);
             Map<String, Object> response = restTemplate.getForObject(url, Map.class);
-            return "Current Weather in " + city + ": " + response.toString();
+            return "Current Weather in " + city + ": " + (response != null ? response.toString() : "No data");
         } catch (Exception e) {
             return "Weather API unavailable for " + city
                     + ". Fallback Data: 33°C, Sunny. Strategic Note: Heat increases demand for ice-based products.";
         }
+    }
+
+    public String getResolvedApiKey() {
+        return apiKey;
     }
 }

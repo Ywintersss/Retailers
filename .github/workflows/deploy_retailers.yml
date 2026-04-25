@@ -67,6 +67,7 @@ jobs:
             cd /home/${{ secrets.EC2_USERNAME }}/app
             
             echo "ILMU_AI_API_KEY=${{ secrets.ILMU_AI_API_KEY }}" > .env
+            echo "OPEN_WEATHER_API_KEY=${{ secrets.OPEN_WEATHER_API_KEY }}" >> .env
             echo "FRONTEND_IMAGE=${{ env.FRONTEND_IMAGE }}" >> .env
             echo "BACKEND_IMAGE=${{ env.BACKEND_IMAGE }}" >> .env
             echo "VITE_API_BASE_URL=http://localhost:8080" >> .env
