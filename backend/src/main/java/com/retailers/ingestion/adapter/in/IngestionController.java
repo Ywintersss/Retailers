@@ -6,6 +6,8 @@ import com.retailers.ingestion.adapter.in.dto.PosIngestRequest;
 
 import org.springframework.http.ResponseEntity;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/events")
 public class IngestionController {
