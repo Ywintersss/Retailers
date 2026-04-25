@@ -14,6 +14,25 @@ const CATALOG = [
   { sku: "BROWN_SUGAR_BOBA", price: 8.00 }
 ];
 
+export async function testBackendConnection() {
+  try {
+    const response = await fetch(`${BASE_URL}/ping`, { 
+      cache: 'no-store' 
+    })
+    
+    if (!response.ok) {
+      return { success: false, message: `HTTP Error: ${response.status}` }
+    }
+    
+    const data = await response.json()
+    return { success: true, message: data.message }
+    
+  } catch (error) {
+    console.error("Connection test failed:", error)
+    return { success: false, message: "Network or proxy configuration error" }
+  }
+}
+
 export async function triggerTransaction(transactionType: string = 'SALE') {
   // Select a random item from the catalog
   const randomItem = CATALOG[Math.floor(Math.random() * CATALOG.length)];

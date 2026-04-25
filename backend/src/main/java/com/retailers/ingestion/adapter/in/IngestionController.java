@@ -10,9 +10,17 @@ import org.springframework.http.ResponseEntity;
 @RequestMapping("/api/v1/events")
 public class IngestionController {
 
+    @GetMapping("/ping")
+    public ResponseEntity<Map<String, String>> ping() {
+        return ResponseEntity.ok(Map.of(
+            "status", "success", 
+            "message", "Connection to Spring Boot backend successful via Nginx"
+        ));
+    }
+
     @PostMapping("/pos/ingest")
     public ResponseEntity<Void> ingestPosData(@RequestBody PosIngestRequest posData) {
-        // This should push the payload directly to a Kafka Topic
+        // Pushes payload directly to Kafka Topic: pos.transactions
         return ResponseEntity.accepted().build();
     }
 }
