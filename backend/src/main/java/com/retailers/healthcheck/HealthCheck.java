@@ -19,11 +19,14 @@ public class HealthCheck {
     private final PosEventProducer producer;
     private final JdbcTemplate jdbcTemplate;
     private final DataSource dataSource;
+    private final com.retailers.shared.adapter.out.WeatherAiTools weatherTools;
 
-    public HealthCheck(PosEventProducer producer, JdbcTemplate jdbcTemplate, DataSource dataSource) {
+    public HealthCheck(PosEventProducer producer, JdbcTemplate jdbcTemplate, DataSource dataSource, 
+                       com.retailers.shared.adapter.out.WeatherAiTools weatherTools) {
         this.producer = producer;
         this.jdbcTemplate = jdbcTemplate;
         this.dataSource = dataSource;
+        this.weatherTools = weatherTools;
     }
 
     // This maps to http://localhost:8080/
@@ -48,6 +51,11 @@ public class HealthCheck {
             System.err.println("Cause: " + e.getMessage());
             return "Database Connection Failed";
         }
+    }
+
+    @GetMapping("/test-weather")
+    public String testWeather() {
+        return weatherTools.getWeather("Kuala Lumpur");
     }
 
     // This maps to http://localhost:8080/test-kafka

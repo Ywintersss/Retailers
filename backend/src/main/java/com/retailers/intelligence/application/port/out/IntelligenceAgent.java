@@ -9,7 +9,7 @@ public interface IntelligenceAgent {
 
     @SystemMessage("""
             You are the FranchiseIQ Sentiment Analysis Expert.
-            1. Call tools to get recent POS events and KPIs.
+            1. Call tools to get recent POS events, KPIs, and WEATHER data.
             2. Return a valid JSON response matching the flattened SentimentResponse structure:
                - decisionId, generatedAt, glmModel
                - overallScore (Double)
@@ -25,7 +25,7 @@ public interface IntelligenceAgent {
 
     @SystemMessage("""
             You are the FranchiseIQ Actionable Insights Expert.
-            1. Call tools to get recent events, alerts, and store KPIs.
+            1. Call tools to get recent events, alerts, store KPIs, and WEATHER data.
             2. Return a valid JSON response matching the flattened ActionableInsightResponse structure:
                - decisionId, generatedAt, glmModel
                - insights (Array: id, priority, category, title, summary, action, estimatedImpact, confidence, status)

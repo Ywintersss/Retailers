@@ -27,12 +27,12 @@
 
 In Malaysia, franchise operators in **sinking markets** (Tier 2–3 cities) face:
 
-| Challenge | Impact |
-|-----------|--------|
-| **Supply Chain Fragility** | 23% product waste from inaccurate forecasting |
-| **Fragmented Data** | POS, weather, social, and audit data in separate silos |
-| **Operational Bottlenecks** | Manual decision-making by non-technical store managers |
-| **No Decision Intelligence** | Reactive instead of proactive store management |
+| Challenge                    | Impact                                                 |
+| ---------------------------- | ------------------------------------------------------ |
+| **Supply Chain Fragility**   | 23% product waste from inaccurate forecasting          |
+| **Fragmented Data**          | POS, weather, social, and audit data in separate silos |
+| **Operational Bottlenecks**  | Manual decision-making by non-technical store managers |
+| **No Decision Intelligence** | Reactive instead of proactive store management         |
 
 ---
 
@@ -52,24 +52,28 @@ In Malaysia, franchise operators in **sinking markets** (Tier 2–3 cities) face
 ## 🚀 Core Features (MVP)
 
 ### 1. Inventory Forecasting
+
 - **What:** 7-day demand prediction per SKU with stockout risk scoring
-- **AI Role:** Cross-references weather (MET Malaysia), historical POS data, school calendar, and social trends
+- **AI Role:** Cross-references weather (OpenWeatherAPI), historical POS data, school calendar, and social trends
 - **Impact:** 15% reduction in waste, prevents stockout-related revenue loss
 - **Component:** `InventoryForecastPanel.jsx`
 
 ### 2. Sentiment Analysis
+
 - **What:** NLP analysis of POS reviews, Google Reviews, and social media mentions
 - **AI Role:** Entity-level sentiment extraction, temporal clustering for anomaly detection
 - **Impact:** Faster crisis response (food safety alerts within hours, not days)
 - **Component:** `SentimentAnalysisPanel.jsx`
 
 ### 3. Dynamic Pricing
+
 - **What:** Peak/off-peak price optimization with per-SKU elasticity modeling
 - **AI Role:** Econometric modeling + demographic analysis for localized pricing
 - **Impact:** +14% projected revenue uplift per store
 - **Component:** `DynamicPricingPanel.jsx`
 
 ### 4. Actionable Insights
+
 - **What:** Priority-ranked, plain-language recommendations for non-technical managers
 - **AI Role:** Synthesizes all data streams into clear action items with confidence scores
 - **Impact:** Increased manager "buy-in" and faster action execution
@@ -166,15 +170,15 @@ src/
 
 ### File Responsibilities
 
-| File | Purpose |
-|------|---------|
-| `lib/supabaseClient.js` | Initializes Supabase with env credentials; falls back to demo mode |
-| `lib/apiClient.js` | HTTP client separating standard CRUD from AI decision endpoints |
-| `data/mockData.js` | Complete mock responses matching backend schemas for demo |
-| `hooks/useApiQueries.js` | TanStack Query hooks with automatic mock data fallback |
-| `components/shared/AIDecisionNode.jsx` | `<AIDecisionBadge>` and `<ExplainDecisionPanel>` — core transparency UX |
-| `components/shared/EventStreamFeed.jsx` | Visualizes multi-source Kafka data streams |
-| `components/features/*.jsx` | Each file = one core AI feature with explanation panel |
+| File                                    | Purpose                                                                 |
+| --------------------------------------- | ----------------------------------------------------------------------- |
+| `lib/supabaseClient.js`                 | Initializes Supabase with env credentials; falls back to demo mode      |
+| `lib/apiClient.js`                      | HTTP client separating standard CRUD from AI decision endpoints         |
+| `data/mockData.js`                      | Complete mock responses matching backend schemas for demo               |
+| `hooks/useApiQueries.js`                | TanStack Query hooks with automatic mock data fallback                  |
+| `components/shared/AIDecisionNode.jsx`  | `<AIDecisionBadge>` and `<ExplainDecisionPanel>` — core transparency UX |
+| `components/shared/EventStreamFeed.jsx` | Visualizes multi-source Kafka data streams                              |
+| `components/features/*.jsx`             | Each file = one core AI feature with explanation panel                  |
 
 ---
 
@@ -205,11 +209,11 @@ The dashboard runs at `http://localhost:5173` with **mock data** when the backen
 
 ### Environment Variables
 
-| Variable | Description |
-|----------|-------------|
-| `VITE_SUPABASE_URL` | Supabase project URL |
-| `VITE_SUPABASE_ANON_KEY` | Supabase anonymous key |
-| `VITE_API_BASE_URL` | Spring Boot API base URL (default: `http://localhost:8080/api/v1`) |
+| Variable                 | Description                                                        |
+| ------------------------ | ------------------------------------------------------------------ |
+| `VITE_SUPABASE_URL`      | Supabase project URL                                               |
+| `VITE_SUPABASE_ANON_KEY` | Supabase anonymous key                                             |
+| `VITE_API_BASE_URL`      | Spring Boot API base URL (default: `http://localhost:8080/api/v1`) |
 
 ---
 
@@ -232,6 +236,7 @@ These endpoints work **without** the GLM — pure data retrieval.
 Returns store information.
 
 **Response:**
+
 ```json
 {
   "id": "store-kl-001",
@@ -251,6 +256,7 @@ Returns store information.
 Returns aggregated KPI metrics.
 
 **Response:**
+
 ```json
 {
   "dailyRevenue": 12480,
@@ -271,6 +277,7 @@ Returns aggregated KPI metrics.
 Returns sales timeline data.
 
 **Response:**
+
 ```json
 [
   {
@@ -287,6 +294,7 @@ Returns sales timeline data.
 Returns latest Kafka event stream entries.
 
 **Response:**
+
 ```json
 [
   {
@@ -311,6 +319,7 @@ These endpoints **require** the Z.AI GLM. If the GLM is removed, they return err
 Generates AI-powered inventory forecast.
 
 **Request:**
+
 ```json
 {
   "horizon": "7d",
@@ -320,6 +329,7 @@ Generates AI-powered inventory forecast.
 ```
 
 **Response:**
+
 ```json
 {
   "decisionId": "dec-inv-20260419",
@@ -345,7 +355,7 @@ Generates AI-powered inventory forecast.
       {
         "name": "Weather Forecast",
         "value": "34°C avg, 72% humidity",
-        "source": "MET Malaysia API",
+        "source": "OpenWeather API",
         "weight": 0.35
       }
     ],
@@ -359,6 +369,7 @@ Generates AI-powered inventory forecast.
 Runs NLP sentiment analysis on reviews and social data.
 
 **Response:**
+
 ```json
 {
   "decisionId": "dec-sen-20260419",
@@ -392,6 +403,7 @@ Runs NLP sentiment analysis on reviews and social data.
 Generates dynamic pricing recommendations.
 
 **Request:**
+
 ```json
 {
   "strategy": "peak-offpeak"
@@ -399,6 +411,7 @@ Generates dynamic pricing recommendations.
 ```
 
 **Response:**
+
 ```json
 {
   "decisionId": "dec-pri-20260419",
@@ -436,6 +449,7 @@ Generates dynamic pricing recommendations.
 Updates trade-off weights (Human-in-the-Loop override).
 
 **Request:**
+
 ```json
 {
   "costSaving": 50,
@@ -449,6 +463,7 @@ Updates trade-off weights (Human-in-the-Loop override).
 Returns prioritized actionable insights.
 
 **Response:**
+
 ```json
 {
   "decisionId": "dec-ins-20260419",
@@ -474,6 +489,7 @@ Returns prioritized actionable insights.
 Applies a recommended insight action.
 
 **Request:**
+
 ```json
 {
   "insightId": "insight-001",
@@ -490,14 +506,13 @@ Applies a recommended insight action.
 Triggers POS data ingestion into the Kafka pipeline.
 
 **Request:**
+
 ```json
 {
   "storeId": "store-kl-001",
   "terminalId": "POS-03",
   "transactionType": "sale",
-  "items": [
-    { "sku": "BROWN-SUGAR-BOBA", "quantity": 2, "price": 8.90 }
-  ],
+  "items": [{ "sku": "BROWN-SUGAR-BOBA", "quantity": 2, "price": 8.9 }],
   "timestamp": "2026-04-19T15:28:42Z"
 }
 ```
@@ -508,23 +523,23 @@ Triggers POS data ingestion into the Kafka pipeline.
 
 ### Color Palette
 
-| Token | Hex | Usage |
-|-------|-----|-------|
-| Primary | `#F54E00` | CTAs, active states, AI accents |
-| Secondary | `#F1A82C` | Warnings, secondary highlights |
-| Tertiary | `#2F80FA` | Info, forecasts, data viz |
-| Neutral-950 | `#0D0E10` | Page background |
-| Neutral-800 | `#1E1F23` | Card backgrounds |
-| Success | `#22C55E` | Positive trends, sufficient stock |
-| Danger | `#EF4444` | Alerts, critical items |
+| Token       | Hex       | Usage                             |
+| ----------- | --------- | --------------------------------- |
+| Primary     | `#F54E00` | CTAs, active states, AI accents   |
+| Secondary   | `#F1A82C` | Warnings, secondary highlights    |
+| Tertiary    | `#2F80FA` | Info, forecasts, data viz         |
+| Neutral-950 | `#0D0E10` | Page background                   |
+| Neutral-800 | `#1E1F23` | Card backgrounds                  |
+| Success     | `#22C55E` | Positive trends, sufficient stock |
+| Danger      | `#EF4444` | Alerts, critical items            |
 
 ### Typography
 
-| Role | Font | Weight |
-|------|------|--------|
-| Headings | Space Grotesk | 600–700 |
-| Body text | Inter | 300–500 |
-| Labels | Space Grotesk | 500 |
+| Role      | Font          | Weight  |
+| --------- | ------------- | ------- |
+| Headings  | Space Grotesk | 600–700 |
+| Body text | Inter         | 300–500 |
+| Labels    | Space Grotesk | 500     |
 
 ### Key UI Patterns
 

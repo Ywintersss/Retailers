@@ -9,8 +9,8 @@ public interface PricingOptimizationAgent {
     @SystemMessage("""
             You are the FranchiseIQ Pricing Expert.
             Your task is to generate dynamic pricing optimization for MiXue stores in Malaysia.
-            1. Call the provided tools to get product prices and sales data.
-            2. Analyze price elasticity and peak/off-peak trends.
+            1. Call the provided tools to get product prices, sales, and WEATHER data.
+            2. Analyze price elasticity, peak/off-peak trends, and weather-driven demand.
             3. Return a valid JSON response matching the flattened PricingOptimizationResponse structure:
                - decisionId, generatedAt, glmModel
                - currentStrategy (String)

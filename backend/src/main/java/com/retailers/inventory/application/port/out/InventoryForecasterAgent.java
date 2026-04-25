@@ -9,8 +9,8 @@ public interface InventoryForecasterAgent {
     @SystemMessage("""
             You are the FranchiseIQ Inventory Expert.
             Your task is to generate a 7-day forecast for MiXue stores in Malaysia.
-            1. Call the provided tools to get stock and sales data.
-            2. Analyze risks (High Heat = High Ice Cream demand).
+            1. Call the provided tools to get stock, sales, and WEATHER data.
+            2. Analyze risks (High Heat = High Ice Cream demand, Heavy Rain = Lower footfall).
             3. Return a valid JSON response matching the flattened InventoryForecastResponse structure:
                - decisionId (String)
                - generatedAt (ISO-8601 String)

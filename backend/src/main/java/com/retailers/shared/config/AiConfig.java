@@ -47,30 +47,33 @@ public class AiConfig {
     @Bean
     public InventoryForecasterAgent inventoryForecasterAgent(
             ChatModel chatModel,
-            InventoryAiTools inventoryTools) {
+            InventoryAiTools inventoryTools,
+            com.retailers.shared.adapter.out.WeatherAiTools weatherTools) {
         return AiServices.builder(InventoryForecasterAgent.class)
                 .chatModel(chatModel)
-                .tools(inventoryTools)
+                .tools(inventoryTools, weatherTools)
                 .build();
     }
 
     @Bean
     public com.retailers.pricing.application.port.out.PricingOptimizationAgent pricingOptimizationAgent(
             ChatModel chatModel,
-            com.retailers.pricing.adapter.out.persistence.PricingAiTools pricingTools) {
+            com.retailers.pricing.adapter.out.persistence.PricingAiTools pricingTools,
+            com.retailers.shared.adapter.out.WeatherAiTools weatherTools) {
         return AiServices.builder(com.retailers.pricing.application.port.out.PricingOptimizationAgent.class)
                 .chatModel(chatModel)
-                .tools(pricingTools)
+                .tools(pricingTools, weatherTools)
                 .build();
     }
 
     @Bean
     public com.retailers.intelligence.application.port.out.IntelligenceAgent intelligenceAgent(
             ChatModel chatModel,
-            com.retailers.intelligence.adapter.out.persistence.IntelligenceAiTools intelligenceTools) {
+            com.retailers.intelligence.adapter.out.persistence.IntelligenceAiTools intelligenceTools,
+            com.retailers.shared.adapter.out.WeatherAiTools weatherTools) {
         return AiServices.builder(com.retailers.intelligence.application.port.out.IntelligenceAgent.class)
                 .chatModel(chatModel)
-                .tools(intelligenceTools)
+                .tools(intelligenceTools, weatherTools)
                 .build();
     }
 }
