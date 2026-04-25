@@ -64,7 +64,6 @@ export function ActionButtons() {
 
   return (
     <div className="flex flex-col gap-4 mb-6">
-      
       {/* Top Row: Admin & Testing */}
       <div className="flex flex-wrap gap-4 border-b pb-4">
         <Button 
@@ -92,9 +91,41 @@ export function ActionButtons() {
         )}
       </div>
 
-      {/* Bottom Row: Manual Actions (Keep your existing buttons here) */}
       <div className="flex flex-wrap gap-4">
-        {/* ... Manual Sale, Refund, Sync Inventory, Submit EOD ... */}
+        {/* Manual Transactions */}
+        <Button 
+          onClick={() => handleTransaction('SALE')} 
+          disabled={loading || isSimulating}
+          className="bg-green-600 hover:bg-green-700 text-white"
+        >
+          Manual Sale
+        </Button>
+        <Button 
+          onClick={() => handleTransaction('REFUND')} 
+          disabled={loading || isSimulating}
+          variant="outline"
+          className="text-red-600 border-red-200 hover:bg-red-50"
+        >
+          Manual Refund
+        </Button>
+
+        <div className="w-px h-10 bg-gray-300 mx-2 hidden sm:block"></div>
+        
+        {/* Admin Actions */}
+        <Button 
+          onClick={handleInventory} 
+          disabled={loading}
+          variant="outline"
+        >
+          Sync Inventory
+        </Button>
+        <Button 
+          onClick={handleEod} 
+          disabled={loading}
+          className="bg-slate-800 hover:bg-slate-900 text-white"
+        >
+          Submit EOD Report
+        </Button>
       </div>
     </div>
   )
