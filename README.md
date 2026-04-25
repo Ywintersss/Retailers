@@ -1,4 +1,4 @@
-# 🧠 FranchiseIQ — AI Decision Intelligence Dashboard
+# 🧠 FranchiseIQ — [AI Decision Intelligence Dashboard](https://retailers.webhop.me)
 https://github.com/user-attachments/assets/afde86fc-5a13-4cc5-9bd1-9706b7f7e276
 
 > **UMHackathon 2026 Submission**
