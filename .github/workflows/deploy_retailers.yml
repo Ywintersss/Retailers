@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths-ignore:
-      - 'mixue-branch-dashboard/**'
+      - "mixue-branch-dashboard/**"
   workflow_dispatch:
 
 env:
@@ -65,13 +65,15 @@ jobs:
           envs: ILMU_AI_API_KEY, FRONTEND_IMAGE, BACKEND_IMAGE
           script: |
             cd /home/${{ secrets.EC2_USERNAME }}/app
-            
+
             echo "ILMU_AI_API_KEY=${{ secrets.ILMU_AI_API_KEY }}" > .env
             echo "FRONTEND_IMAGE=${{ env.FRONTEND_IMAGE }}" >> .env
             echo "BACKEND_IMAGE=${{ env.BACKEND_IMAGE }}" >> .env
             echo "VITE_API_BASE_URL=http://localhost:8080" >> .env
             echo "VITE_API_BASE_URL_PROD=https://retailers.webhop.me" >> .env
-            
+            echo "VITE_IS_PROD=true" >> .env
+
             docker compose pull
             # Add these flags to ensure a clean slate
             docker compose up -d --force-recreate --remove-orphans
+
