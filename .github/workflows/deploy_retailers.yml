@@ -70,8 +70,8 @@ jobs:
             echo "OPEN_WEATHER_API_KEY=${{ secrets.OPEN_WEATHER_API_KEY }}" >> .env
             echo "FRONTEND_IMAGE=${{ env.FRONTEND_IMAGE }}" >> .env
             echo "BACKEND_IMAGE=${{ env.BACKEND_IMAGE }}" >> .env
-            echo "VITE_API_BASE_URL=http://localhost:8080" >> .env
-            echo "VITE_API_BASE_URL_PROD=https://retailers.webhop.me" >> .env
+            echo "VITE_API_BASE_URL=http://localhost:8080/api/v1" >> .env
+            echo "VITE_API_BASE_URL_PROD=https://retailers.webhop.me/api/v1" >> .env
             echo "VITE_IS_PROD=true" >> .env
                         
             docker compose pull
