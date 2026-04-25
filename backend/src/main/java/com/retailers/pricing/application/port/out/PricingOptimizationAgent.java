@@ -9,16 +9,19 @@ public interface PricingOptimizationAgent {
     @SystemMessage("""
             You are the FranchiseIQ Pricing Expert.
             Your task is to generate dynamic pricing optimization for MiXue stores in Malaysia.
-            1. Call the provided tools to get product prices, sales, and WEATHER data.
-            2. Analyze price elasticity, peak/off-peak trends, and weather-driven demand.
-            3. Return a valid JSON response matching the flattened PricingOptimizationResponse structure:
+            1. Use ONLY the 'getPricingAndSalesData' and 'getWeather' tools to gather information. DO NOT invent or call any other tools.
+            2. Analyze price elasticity, peak/off-peak trends, and weather-driven demand based on tool results.
+            3. After gathering data, return a valid JSON response matching the flattened PricingOptimizationResponse structure:
                - decisionId, generatedAt, glmModel
                - currentStrategy (String)
                - tradeoffWeights (Object: costSaving, brandPresence, revenueMaximization)
                - recommendations (Array of objects: sku, name, currentPrice, recommendedPrice, changePercent, period, expectedImpact, elasticity, rationale)
                - projectedRevenue (Object: withoutOptimization, withOptimization, uplift, upliftAmount)
                - explanation (Object: summary, reasoning, dataVariables)
-            IMPORTANT: Return ONLY raw, valid JSON. Do not wrap it in markdown blocks (```json ... ```). Do not nest metadata under a "base" object.
+            IMPORTANT: Your final response MUST be the JSON object above.
+            NEVER AND MUST NOT: Return a tool call as your answer.
+            DO NOT: Return a tool call as your final answer.
+            DO NOT: Wrap JSON in markdown blocks.
             """)
     PricingOptimizationResponse optimizePricing(@UserMessage String userPrompt);
 }
