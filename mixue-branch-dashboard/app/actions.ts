@@ -2,10 +2,9 @@
 
 import { revalidatePath } from 'next/cache'
 
-const BASE_URL = "https://retailers.webhop.me/api/v1/events"
+const BASE_URL = process.env.VITE_API_BASE_URL_PROD ? `${process.env.VITE_API_BASE_URL_PROD}/api/v1/events` : "https://retailers.webhop.me/api/v1/events"
 const STORE_ID = "MIXUE_MAIN"
 
-// Define a catalog for random transactions
 const CATALOG = [
   { sku: "PEARL_MILK_TEA", price: 6.50 },
   { sku: "STRAWBERRY_MI_SHAKE", price: 7.00 },
@@ -15,43 +14,42 @@ const CATALOG = [
 ];
 
 export async function testBackendConnection() {
+  console.log(`[Server Action] Testing connection to: ${BASE_URL}/ping`);
   try {
-    const response = await fetch(`${BASE_URL}/ping`, { 
-      cache: 'no-store' 
-    })
+    const response = await fetch(`${BASE_URL}/ping`, { cache: 'no-store' })
+    console.log(`[Server Action] Ping response status: ${response.status}`);
     
     if (!response.ok) {
       return { success: false, message: `HTTP Error: ${response.status}` }
     }
     
     const data = await response.json()
+    console.log(`[Server Action] Ping payload:`, data);
     return { success: true, message: data.message }
     
   } catch (error) {
-    console.error("Connection test failed:", error)
+    console.error("[Server Action] Connection test failed:", error)
     return { success: false, message: "Network or proxy configuration error" }
   }
 }
 
-// Add this to your existing actions.ts file
-
 export async function getLatestEvents() {
+  console.log(`[Server Action] Fetching latest events from: ${BASE_URL}/stream/latest`);
   try {
-    // Note: Adjust this URL if you remove the extra /events from your Java @GetMapping
-    const response = await fetch(`${BASE_URL}/events/stream/latest`, {
-      cache: 'no-store'
-    })
+    const response = await fetch(`${BASE_URL}/stream/latest`, { cache: 'no-store' })
+    console.log(`[Server Action] Event stream response status: ${response.status}`);
     
     if (!response.ok) return []
-    return response.json()
+    const data = await response.json()
+    console.log(`[Server Action] Retrieved ${data.length} events.`);
+    return data;
   } catch (error) {
-    console.error("Failed to fetch event stream:", error)
+    console.error("[Server Action] Failed to fetch event stream:", error)
     return []
   }
 }
 
 export async function triggerTransaction(transactionType: string = 'SALE') {
-  // Select a random item from the catalog
   const randomItem = CATALOG[Math.floor(Math.random() * CATALOG.length)];
   const randomQuantity = Math.floor(Math.random() * 3) + 1;
 
@@ -59,47 +57,47 @@ export async function triggerTransaction(transactionType: string = 'SALE') {
     storeId: STORE_ID,
     terminalId: "TERM_01",
     transactionType: transactionType,
-    items: [
-      {
-        sku: randomItem.sku, // Updated from itemId to sku
-        quantity: randomQuantity,
-        price: randomItem.price
-      }
-    ],
+    items: [{ sku: randomItem.sku, quantity: randomQuantity, price: randomItem.price }],
     timestamp: new Date().toISOString()
   }
 
-  await fetch(`${BASE_URL}/pos/ingest`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  })
+  console.log(`[Server Action] Triggering ${transactionType}. Payload:`, JSON.stringify(payload, null, 2));
 
-  revalidatePath('/')
+  try {
+    const response = await fetch(`${BASE_URL}/pos/ingest`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    console.log(`[Server Action] Ingest response status: ${response.status}`);
+    revalidatePath('/')
+  } catch (error) {
+    console.error("[Server Action] Transaction trigger failed:", error)
+  }
 }
 
 export async function getSalesData() {
+  console.log(`[Server Action] Fetching sales data for store: ${STORE_ID}`);
   try {
-    const response = await fetch(`${BASE_URL}/stores/${STORE_ID}/sales`, {
-      cache: 'no-store'
-    })
+    const response = await fetch(`${BASE_URL}/stores/${STORE_ID}/sales`, { cache: 'no-store' })
+    console.log(`[Server Action] Sales data response status: ${response.status}`);
     if (!response.ok) return []
     return response.json()
   } catch (error) {
-    console.error("Failed to fetch sales:", error)
+    console.error("[Server Action] Failed to fetch sales:", error)
     return []
   }
 }
 
 export async function checkInventory() {
-    try {
-        const response = await fetch(`${BASE_URL}/stores/${STORE_ID}/inventory`, {
-            cache: 'no-store'
-    })
+  console.log(`[Server Action] Checking inventory for store: ${STORE_ID}`);
+  try {
+    const response = await fetch(`${BASE_URL}/stores/${STORE_ID}/inventory`, { cache: 'no-store' })
+    console.log(`[Server Action] Inventory response status: ${response.status}`);
     if (!response.ok) return null
     return response.json()
   } catch (error) {
-    console.error("Failed to fetch inventory:", error)
+    console.error("[Server Action] Failed to fetch inventory:", error)
     return null
   }
 }
@@ -112,12 +110,17 @@ export async function submitEodReport() {
     status: "CLOSED"
   }
 
-  await fetch(`${BASE_URL}/pos/eod`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  })
+  console.log(`[Server Action] Submitting EOD Report. Payload:`, payload);
 
-  // Revalidate the page to reflect any changes after EOD
-  revalidatePath('/')
+  try {
+    const response = await fetch(`${BASE_URL}/pos/eod`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    console.log(`[Server Action] EOD submission response status: ${response.status}`);
+    revalidatePath('/')
+  } catch (error) {
+    console.error("[Server Action] EOD submission failed:", error)
+  }
 }

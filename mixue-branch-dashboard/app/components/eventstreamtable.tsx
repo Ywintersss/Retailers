@@ -16,21 +16,29 @@ export function EventStreamTable() {
   const [events, setEvents] = useState<any[]>([])
 
   useEffect(() => {
-    // Fetch immediately on mount
+    console.log("[EventStreamTable] Component mounted. Initializing stream feed.");
+
     const fetchEvents = async () => {
+      console.log(`[EventStreamTable] Fetching events at ${new Date().toLocaleTimeString()}`);
       const data = await getLatestEvents()
+      console.log(`[EventStreamTable] Received ${data?.length || 0} events from server.`, data);
       setEvents(data)
     }
     
+    // Fetch immediately on mount
     fetchEvents()
 
     // Poll every 3 seconds
     const interval = setInterval(() => {
+      console.log("[EventStreamTable] Polling interval triggered.");
       fetchEvents()
     }, 3000)
 
     // Cleanup interval on unmount
-    return () => clearInterval(interval)
+    return () => {
+      console.log("[EventStreamTable] Component unmounting. Clearing polling interval.");
+      clearInterval(interval)
+    }
   }, [])
 
   return (
@@ -62,7 +70,7 @@ export function EventStreamTable() {
             {events.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={5} className="text-center py-6 text-gray-500">
-                  Waiting for events...
+                  Waiting for events... Check console for network status.
                 </TableCell>
               </TableRow>
             ) : (

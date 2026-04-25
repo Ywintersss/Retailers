@@ -10,7 +10,8 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./data.sql:/docker-entrypoint-initdb.d/data.sql
+      - ./backend/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./backend/src/main/resources/data.sql:/docker-entrypoint-initdb.d/02-data.sql
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "franchise_user", "-d", "franchiseiq"]
       interval: 5s
@@ -73,6 +74,7 @@ services:
     environment:
       - VITE_API_BASE_URL=${VITE_API_BASE_URL}
       - VITE_API_BASE_URL_PROD=${VITE_API_BASE_URL_PROD}
+      - VITE_IS_PROD=${VITE_IS_PROD}
     depends_on:
       - backend
 

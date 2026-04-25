@@ -53,11 +53,8 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          # Add your SQL file path here, separated by a comma
-          source: "docker-compose.yml,backend\\src\\main\\resources\\data.sql" 
+          source: "docker-compose.yml,backend/src/main/resources/schema.sql,backend/src/main/resources/data.sql" 
           target: "/home/${{ secrets.EC2_USERNAME }}/app"
-          # Optional: Use strip_components to flatten the directory structure 
-          # on the EC2 instance if data.sql is deep inside your repo folder
 
       - name: Generate .env and Deploy
         uses: appleboy/ssh-action@v1.0.3
@@ -65,7 +62,6 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          # Pass the job env variables into the SSH session
           envs: ILMU_AI_API_KEY, FRONTEND_IMAGE, BACKEND_IMAGE
           script: |
             cd /home/${{ secrets.EC2_USERNAME }}/app
