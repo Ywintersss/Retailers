@@ -33,17 +33,6 @@ jobs:
           push: true
           tags: ${{ env.FRONTEND_IMAGE }}
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@v3
-        with:
-          java-version: '21' # Change this if you use Java 21
-          distribution: 'temurin'
-          cache: maven
-
-      - name: Build Backend with Maven
-        working-directory: ./backend
-        run: mvn clean package -DskipTests
-
       - name: Build and push Backend
         uses: docker/build-push-action@v5
         with:

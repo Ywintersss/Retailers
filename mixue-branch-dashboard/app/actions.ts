@@ -33,6 +33,23 @@ export async function testBackendConnection() {
   }
 }
 
+// Add this to your existing actions.ts file
+
+export async function getLatestEvents() {
+  try {
+    // Note: Adjust this URL if you remove the extra /events from your Java @GetMapping
+    const response = await fetch(`${BASE_URL}/events/stream/latest`, {
+      cache: 'no-store'
+    })
+    
+    if (!response.ok) return []
+    return response.json()
+  } catch (error) {
+    console.error("Failed to fetch event stream:", error)
+    return []
+  }
+}
+
 export async function triggerTransaction(transactionType: string = 'SALE') {
   // Select a random item from the catalog
   const randomItem = CATALOG[Math.floor(Math.random() * CATALOG.length)];
