@@ -28,6 +28,22 @@ public class PricingControllers {
         return ResponseEntity.ok(pricingAgent.optimizePricing(prompt));
     }
 
+    // Human-in-the-Loop: Dynamic Recalculation
+    @PostMapping("/pricing/recalculate/{storeId}")
+    public ResponseEntity<PricingOptimizationResponse> recalculatePricing(
+            @PathVariable String storeId,
+            @RequestBody PricingOptimizationRequest request) {
+        
+        String weightsInfo = request.weights() != null ? 
+            String.format(" (Adjusted Weights: Cost Saving %d%%, Brand Presence %d%%, Revenue Max %d%%)", 
+                request.weights().costSaving(), request.weights().brandPresence(), request.weights().revenueMaximization()) : "";
+        
+        String prompt = String.format("Store: %s. Strategy: %s.%s Analyze data and generate optimized price recommendations based on these specific trade-off priorities.", 
+                storeId, request.strategy(), weightsInfo);
+        
+        return ResponseEntity.ok(pricingAgent.optimizePricing(prompt));
+    }
+
     // Human-in-the-Loop: Updating AI Weights
     @PutMapping("/pricing/weights/{storeId}")
     public ResponseEntity<Void> updateAiWeights(

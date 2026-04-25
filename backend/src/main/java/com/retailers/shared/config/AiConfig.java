@@ -1,7 +1,8 @@
 package com.retailers.shared.config;
 
-import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.googleai.GoogleAiGeminiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
+import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.service.AiServices;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +30,19 @@ public class AiConfig {
                 .logResponses(true)
                 .build();
     }
+
+    // @Bean
+    // public ChatModel chatLanguageModel(
+    // @Value("${ILMU_AI_API_KEY}") String apiKey) {
+    //
+    // return GoogleAiGeminiChatModel.builder()
+    // .apiKey(apiKey)
+    // .modelName("gemini-2.5-flash-lite")
+    // .timeout(Duration.ofSeconds(180))
+    // .logRequests(true)
+    // .logResponses(true)
+    // .build();
+    // }
 
     @Bean
     public InventoryForecasterAgent inventoryForecasterAgent(

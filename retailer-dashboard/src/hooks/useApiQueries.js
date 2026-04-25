@@ -179,6 +179,22 @@ export function useUpdateTradeoffWeights() {
 	});
 }
 
+export function useRecalculatePricing() {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: ({ storeId, weights, strategy = "peak-offpeak" }) =>
+			apiClient.request(`/ai/pricing/recalculate/${storeId}`, {
+				method: "POST",
+				body: JSON.stringify({ strategy, weights }),
+			}),
+		onSuccess: (newData) => {
+			// Manually update the cache for instant feedback
+			queryClient.setQueryData(["ai", "pricing", "store-kl-001"], newData);
+		},
+	});
+}
+
 export function useTriggerPosEvent() {
 	const queryClient = useQueryClient();
 
