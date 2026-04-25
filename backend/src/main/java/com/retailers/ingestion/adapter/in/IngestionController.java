@@ -9,15 +9,14 @@ import org.springframework.http.ResponseEntity;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/events")
+@RequestMapping("/api/v1/ai/events")
 public class IngestionController {
 
     @GetMapping("/ping")
     public ResponseEntity<Map<String, String>> ping() {
         return ResponseEntity.ok(Map.of(
-            "status", "success", 
-            "message", "Connection to Spring Boot backend successful via Nginx"
-        ));
+                "status", "success",
+                "message", "Connection to Spring Boot backend successful via Nginx"));
     }
 
     @PostMapping("/pos/ingest")
